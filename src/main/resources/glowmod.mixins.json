@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.glowmod.client.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "EntityGlowMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
