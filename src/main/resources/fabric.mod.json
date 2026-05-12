@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "glowmod",
+  "version": "1.0.0",
+  "name": "GlowMod",
+  "description": "Highlights players with a glow effect. Toggle with /highlight",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.glowmod.client.GlowMod"
+    ]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "fabric-api": "*",
+    "minecraft": "~1.20.1",
+    "java": ">=17"
+  }
+}
