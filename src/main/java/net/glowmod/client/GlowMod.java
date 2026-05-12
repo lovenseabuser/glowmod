@@ -19,10 +19,10 @@ public class GlowMod implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-            "key.glowmod.toggle",
+            "key.performancetweaks.toggle",
             InputUtil.Type.KEYSYM,
             GLFW.GLFW_KEY_G,
-            "category.glowmod"
+            "category.performancetweaks"
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -32,7 +32,7 @@ public class GlowMod implements ClientModInitializer {
             if (isPressed && !wasPressed) {
                 glowEnabled = !glowEnabled;
                 client.player.sendMessage(
-                    Text.literal("§6[GlowMod] §fPlayer highlight: " + (glowEnabled ? "§aON" : "§cOFF")),
+                    Text.literal("§6[PerformanceTweaks] §fRendering: " + (glowEnabled ? "§aON" : "§cOFF")),
                     false
                 );
             }
