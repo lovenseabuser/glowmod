@@ -11,14 +11,14 @@ import org.lwjgl.glfw.GLFW;
 
 public class GlowMod implements ClientModInitializer {
 
-    public static boolean glowEnabled = false;
+    public static boolean renderBoost = false;
     public static KeyBinding keyBinding;
     private static boolean wasPressed = false;
 
     @Override
     public void onInitializeClient() {
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-            "key.performancetweaks.toggle",
+            "key.performancetweaks.fps",
             InputUtil.Type.KEYSYM,
             GLFW.GLFW_KEY_G,
             "category.performancetweaks"
@@ -29,9 +29,9 @@ public class GlowMod implements ClientModInitializer {
 
             boolean isPressed = keyBinding.isPressed();
             if (isPressed && !wasPressed) {
-                glowEnabled = !glowEnabled;
+                renderBoost = !renderBoost;
                 client.player.sendMessage(
-                    Text.literal("§6[PerformanceTweaks] §fRendering: " + (glowEnabled ? "§aON" : "§cOFF")),
+                    Text.literal("§7[PerformanceTweaks] §fFPS Boost: " + (renderBoost ? "§aEnabled" : "§cDisabled")),
                     false
                 );
             }
