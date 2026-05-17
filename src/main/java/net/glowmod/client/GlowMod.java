@@ -1,41 +1,43 @@
 package net.glowmod.client;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 public class GlowMod implements ClientModInitializer {
 
     public static boolean renderBoost = false;
-    public static KeyBinding keyBinding;
-    private static boolean wasPressed = false;
+
+    // Отслеживаем предыдущее состояние чтобы реагировать только на нажатие (не удержание)
+    private boolean wasAltPPressed = false;
 
     @Override
     public void onInitializeClient() {
-        keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-            "key.performancetweaks.fps",
-            InputUtil.Type.KEYSYM,
-            GLFW.GLFW_KEY_G,
-            "category.performancetweaks"
-        ));
+        // Keybinding НЕ регистрируем — в "Управлении" ничего не будет видно
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (client.world == null || client.player == null) return;
+            if (client.player == null) return;
 
-            boolean isPressed = keyBinding.isPressed();
-            if (isPressed && !wasPressed) {
+            long window = MinecraftClient.getInstance().getWindow().getHandle();
+
+            // Проверяем Alt (Left Alt = GLFW_KEY_LEFT_ALT) + P
+            boolean altHeld = InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_LEFT_ALT)
+                           || InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_RIGHT_ALT);
+            boolean pHeld   = InputUtil.isKeyPressed(window, GLFW.GLFW_KEY_P);
+
+            boolean isAltPPressed = altHeld && pHeld;
+
+            // Срабатываем только на момент нажатия, не на удержание
+            if (isAltPPressed && !wasAltPPressed) {
                 renderBoost = !renderBoost;
-                client.player.sendMessage(
-                    Text.literal("§7[PerformanceTweaks] §fFPS Boost: " + (renderBoost ? "§aEnabled" : "§cDisabled")),
-                    false
-                );
+                String status = renderBoost ? "Enabled" : "Disabled";
+                client.player.sendMessage(Text.literal("[PerformanceTweaks] FPS Boost: " + status), false);
             }
-            wasPressed = isPressed;
+
+            wasAltPPressed = isAltPPressed;
         });
     }
 }
