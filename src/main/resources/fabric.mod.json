@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "glowmod",
-  "version": "1.0.0",
-  "name": "Performance Tweaks",
-  "description": "Optimizes client-side rendering performance.",
+  "id": "optifabric",
+"version": "1.0.0",
+"name": "OptiFabric",
+"description": "Optimizes rendering pipeline.",
   "authors": [],
   "contact": {},
   "license": "MIT",
